@@ -1,0 +1,49 @@
+= SpringBoot with Elastic Search
+
+== Introduction
+
+This example use Spring Boot and persist data on Elastic Search. The test execute a _CRUD_ of model link:./employee-elastic/src/main/java/com/spring/elastic/model/Employee.java[Employee].
+
+== Docker services
+
+For start services execute.
+
+[source,bash]
+----
+docker-compose up -d
+----
+
+Access the http://localhost:5000[Manager Elastic Search - elastichq] and connect to *_http://elasticsearch.srv.com:9200_*.
+
+Container Elastic Search:
+
+include::docker-compose.yml[tag=server]
+
+Container Elastic-HQ:
+
+include::docker-compose.yml[tag=manager]
+
+== Testing running
+
+The test when run up in background container of Elastic Search.
+
+Run test:
+
+[source,bash]
+----
+mvn test
+----
+
+Define container with specific image docker and version:
+
+[source,bash]
+----
+include::employee-elastic/src/test/java/com/spring/elastic/repository/EmployeeRepositoryTest.java[tags=container]
+----
+
+Define connection between app and Elastic Search with container testing:
+
+[source,bash]
+----
+include::employee-elastic/src/test/java/com/spring/elastic/repository/EmployeeRepositoryTest.java[tags=cluster]
+----

@@ -1,0 +1,35 @@
+version: '3.3'
+
+services:
+
+  # tag::server[]
+  elasticsearch:
+    container_name: elasticsearch
+    hostname: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.8.0
+    ports:
+      - 9200:9200
+      - 9300:9300
+    environment:
+      discovery.type: single-node
+    networks:
+      elastic-ntw:
+        aliases:
+          - elasticsearch.srv.com
+  # end::server[]
+
+  # tag::manager[]
+  elastichq:
+    container_name: elastichq
+    hostname: elastichq
+    image: elastichq/elasticsearch-hq
+    ports:
+      - 5000:5000
+    networks:
+      elastic-ntw:
+        aliases:
+          - elastichq.srv.com
+  # end::manager[]
+
+networks:
+  elastic-ntw:
